@@ -1,10 +1,11 @@
 name = "smart-traffic-comp2"
-type = "javascript"
-
-account_id = "c1685453fb2e13112e9d77bee8d37357"  # เอาจาก Cloudflare Dashboard
+account_id = "c1685453fb2e13112e9d77bee8d37357"
 compatibility_date = "2025-08-06"
 workers_dev = true
 
+[build]
+upload.format = "service-worker"
+
 [site]
 bucket = "./public"
-entry-point = "."
+
