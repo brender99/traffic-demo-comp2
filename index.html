@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ตัวอย่างการทำงานของโปรแกรมนับและวิเคราะห์เหตุการณ์บนท้องถนน</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background-color: #ffffff;
+            color: #2d3748;
+            line-height: 1.7;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .header h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            line-height: 1.3;
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.95;
+            font-weight: 400;
+        }
+        
+        .main-content {
+            padding: 3rem 0;
+        }
+        
+        .intro-section {
+            background-color: #f8fafc;
+            padding: 3rem 0;
+            margin-bottom: 3rem;
+            border-top: 4px solid #667eea;
+            border-bottom: 4px solid #667eea;
+        }
+        
+        .intro-title {
+            color: #4a5568;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        .intro-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #2d3748;
+            text-align: justify;
+            margin-bottom: 1.5rem;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .feature-box {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .feature-box:hover {
+            border-color: #667eea;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transform: translateY(-5px);
+        }
+        
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.8rem;
+            color: white;
+        }
+        
+        .feature-title {
+            color: #4a5568;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .feature-desc {
+            color: #718096;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+        
+        .video-section {
+            margin: 4rem 0;
+        }
+        
+        .section-title {
+            color: #2d3748;
+            font-size: 2rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        
+        .section-subtitle {
+            color: #718096;
+            font-size: 1.2rem;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 3rem;
+            margin-top: 2rem;
+        }
+        
+        .video-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+            transition: all 0.4s ease;
+            cursor: pointer;
+        }
+        
+        .video-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+        
+        .video-preview {
+            position: relative;
+            width: 100%;
+            height: 250px;
+            overflow: hidden;
+        }
+        
+        .video-preview video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .play-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .video-card:hover .play-overlay {
+            background: rgba(0,0,0,0.6);
+        }
+        
+        .play-button {
+            width: 80px;
+            height: 80px;
+            background: rgba(255,255,255,0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: #667eea;
+            transition: all 0.3s ease;
+        }
+        
+        .video-card:hover .play-button {
+            background: white;
+            transform: scale(1.1);
+        }
+        
+        .video-info {
+            padding: 2rem;
+        }
+        
+        .video-title {
+            color: #2d3748;
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .video-description {
+            color: #718096;
+            font-size: 1rem;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+        
+        .video-details {
+            background: #f7fafc;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .video-detail-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+        
+        .video-detail-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .detail-label {
+            color: #4a5568;
+            font-weight: 600;
+        }
+        
+        .detail-value {
+            color: #718096;
+        }
+        
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .tech-badge {
+            background: #667eea;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        
+        .modal-content {
+            border-radius: 15px;
+            border: none;
+            overflow: hidden;
+        }
+        
+        .modal-header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-bottom: none;
+            padding: 1.5rem;
+        }
+        
+        .modal-title {
+            font-weight: 600;
+        }
+        
+        .video-container {
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-bottom: 56.25%;
+            background: #000;
+            overflow: hidden;
+        }
+        
+        .video-container video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        
+        .footer {
+            background: #2d3748;
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            margin-top: 4rem;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .video-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .intro-text {
+                text-align: left;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <h1>ตัวอย่างการทำงานของโปรแกรมนับและวิเคราะห์เหตุการณ์บนท้องถนน</h1>
+            <p>ระบบปัญญาประดิษฐ์สำหรับการจัดการและวิเคราะห์การจราจรอย่างอัตโนมัติ</p>
+        </div>
+    </header>
+
+    <!-- Introduction Section -->
+    <section class="intro-section">
+        <div class="container">
+            <h2 class="intro-title">เกี่ยวกับโปรแกรม</h2>
+            <p class="intro-text">
+                โปรแกรมนี้เป็นระบบปัญญาประดิษฐ์ที่พัฒนาขึ้นเพื่อช่วยในการจัดการและวิเคราะห์สถานการณ์การจราจรบนท้องถนน 
+                โดยใช้เทคโนโลยี Computer Vision และ Machine Learning ในการประมวลผลภาพจากกล้องวงจรปิดแบบเรียลไทม์ 
+                ระบบสามารถนับจำนวนยานพาหนะประเภทต่างๆ ได้อย่างแม่นยำ และตรวจจับเหตุการณ์ผิดปกติต่างๆ บนท้องถนน
+            </p>
+            <p class="intro-text">
+                การนำเทคโนโลยีนี้มาใช้จะช่วยลดภาระงานของเจ้าหน้าที่ตำรวจจราจร และช่วยให้การจัดการจราจรมีประสิทธิภาพมากขึ้น 
+                รวมถึงสามารถตอบสนองต่อเหตุการณ์ฉุกเฉินได้อย่างรวดเร็ว ซึ่งจะส่งผลดีต่อความปลอดภัยของผู้ใช้รถใช้ถนนโดยรวม
+            </p>
+            
+            <div class="features-grid">
+                <div class="feature-box">
+                    <div class="feature-icon">
+                        <i class="fas fa-car"></i>
+                    </div>
+                    <h3 class="feature-title">นับยานพาหนะอัตโนมัติ</h3>
+                    <p class="feature-desc">
+                        ตรวจจับและนับจำนวนยานพาหนะประเภทต่างๆ เช่น รถยนต์ รถจักรยานยนต์ รถบัส รถบรรทุก 
+                        พร้อมทั้งจำแนกประเภทได้อย่างถูกต้องแม่นยำ
+                    </p>
+                </div>
+                <div class="feature-box">
+                    <div class="feature-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <h3 class="feature-title">ตรวจจับเหตุการณ์ผิดปกติ</h3>
+                    <p class="feature-desc">
+                        ระบุเหตุการณ์ที่อาจก่อให้เกิดอันตราย เช่น รถจอดในที่ห้าม รถเสียในเลน รถชนกัน 
+                        และส่งสัญญาณเตือนให้เจ้าหน้าที่ได้ทันที
+                    </p>
+                </div>
+                <div class="feature-box">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3 class="feature-title">รายงานและสถิติ</h3>
+                    <p class="feature-desc">
+                        สร้างรายงานสถิติการจราจรประจำวัน สัปดาห์ เดือน และปี พร้อมทั้งกราฟแสดงแนวโน้ม 
+                        เพื่อช่วยในการวางแผนการจัดการจราจร
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Video Section -->
+    <section class="video-section">
+        <div class="container">
+            <h2 class="section-title">ตัวอย่างการทำงาน</h2>
+            <p class="section-subtitle">
+                คลิกที่วิดีโอด้านล่างเพื่อดูตัวอย่างการทำงานของโปรแกรมในสถานการณ์จริง
+            </p>
+            
+            <div class="video-grid">
+                <!-- Vehicle Counting Demo -->
+                <div class="video-card" data-bs-toggle="modal" data-bs-target="#videoModal" data-video="videos/counting_c3.mp4" data-title="การนับยานพาหนะอัตโนมัติ">
+                    <div class="video-preview">
+                        <video muted loop>
+                            <source src="videos/counting_c3.mp4" type="video/mp4">
+                        </video>
+                        <div class="play-overlay">
+                            <div class="play-button">
+                                <i class="fas fa-play"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="video-info">
+                        <h3 class="video-title">การนับยานพาหนะอัตโนมัติ</h3>
+                        <p class="video-description">
+                            ตัวอย่างการทำงานของระบบในการตรวจจับและนับจำนวนยานพาหนะประเภทต่างๆ บนท้องถนน 
+                            โดยระบบจะแสดงกรอบสีรอบๆ ยานพาหนะที่ตรวจจับได้ พร้อมทั้งแสดงประเภทของยานพาหนะ 
+                            และนับจำนวนรวมแบบเรียลไทม์
+                        </p>
+                        <div class="video-details">
+                            <div class="video-detail-item">
+                                <span class="detail-label">ประเภทยานพาหนะ:</span>
+                                <span class="detail-value">รถยนต์, มอเตอร์ไซค์, รถบรรทุก</span>
+                            </div>
+                            <div class="video-detail-item">
+                                <span class="detail-label">ความแม่นยำ:</span>
+                                <span class="detail-value">95%+</span>
+                            </div>
+                            <div class="video-detail-item">
+                                <span class="detail-label">ความเร็วประมวลผล:</span>
+                                <span class="detail-value">30 เฟรมต่อวินาที</span>
+                            </div>
+                        </div>
+                        <div class="tech-stack">
+                            <span class="tech-badge">YOLO</span>
+                            <span class="tech-badge">OpenCV</span>
+                            <span class="tech-badge">Python</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Car Breakdown Demo -->
+                <div class="video-card" data-bs-toggle="modal" data-bs-target="#videoModal" data-video="videos/car_breakdown_c3.mp4" data-title="การตรวจจับรถเสีย">
+                    <div class="video-preview">
+                        <video muted loop>
+                            <source src="videos/car_breakdown_c3.mp4" type="video/mp4">
+                        </video>
+                        <div class="play-overlay">
+                            <div class="play-button">
+                                <i class="fas fa-play"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="video-info">
+                        <h3 class="video-title">การตรวจจับรถเสีย</h3>
+                        <p class="video-description">
+                            ระบบสามารถตรวจจับยานพาหนะที่หยุดนิ่งเป็นเวลานานผิดปกติ หรือมีพฤติกรรมแสดงว่าเกิดปัญหาขัดข้อง 
+                            เมื่อระบบตรวจพบจะส่งสัญญาณแจ้งเตือนให้เจ้าหน้าที่ทราบทันที 
+                            เพื่อให้สามารถเข้าไปช่วยเหลือได้อย่างรวดเร็ว
+                        </p>
+                        <div class="video-details">
+                            <div class="video-detail-item">
+                                <span class="detail-label">เวลาในการตรวจจับ:</span>
+                                <span class="detail-value">30 วินาที</span>
+                            </div>
+                            <div class="video-detail-item">
+                                <span class="detail-label">ระบบแจ้งเตือน:</span>
+                                <span class="detail-value">อัตโนมัติผ่าน SMS/Email</span>
+                            </div>
+                            <div class="video-detail-item">
+                                <span class="detail-label">ความถูกต้อง:</span>
+                                <span class="detail-value">90%+</span>
+                            </div>
+                        </div>
+                        <div class="tech-stack">
+                            <span class="tech-badge">Motion Detection</span>
+                            <span class="tech-badge">Alert System</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Car Stop Demo -->
+                <div class="video-card" data-bs-toggle="modal" data-bs-target="#videoModal" data-video="videos/carstop_c3.mp4" data-title="การตรวจจับรถจอดผิดที่">
+                    <div class="video-preview">
+                        <video muted loop>
+                            <source src="videos/carstop_c3.mp4" type="video/mp4">
+                        </video>
+                        <div class="play-overlay">
+                            <div class="play-button">
+                                <i class="fas fa-play"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="video-info">
+                        <h3 class="video-title">การตรวจจับรถจอดผิดที่</h3>
+                        <p class="video-description">
+                            ระบบตรวจจับยานพาหนะที่จอดในพื้นที่ต้องห้าม เช่น จอดขวางทางเดิน จอดใกล้จุดเลี้ยว 
+                            หรือจอดในเลนจราจรเป็นเวลานาน ระบบจะทำการบันทึกหลักฐานและแจ้งเตือนเจ้าหน้าที่ 
+                            เพื่อดำเนินการตามกฎหมายต่อไป
+                        </p>
+                        <div class="video-details">
+                            <div class="video-detail-item">
+                                <span class="detail-label">เขตพื้นที่ตรวจจับ:</span>
+                                <span class="detail-value">กำหนดได้ตามต้องการ</span>
+                            </div>
+                            <div class="video-detail-item">
+                                <span class="detail-label">การบันทึกหลักฐาน:</span>
+                                <span class="detail-value">วิดีโอ + รูปภาพ</span>
+                            </div>
+                            <div class="video-detail-item">
+                                <span class="detail-label">เวลาแจ้งเตือน:</span>
+                                <span class="detail-value">ทันทีที่ตรวจพบ</span>
+                            </div>
+                        </div>
+                        <div class="tech-stack">
+                            <span class="tech-badge">Zone Detection</span>
+                            <span class="tech-badge">Evidence Recording</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Additional Info Section -->
+    <section class="intro-section">
+        <div class="container">
+            <h2 class="intro-title">ประโยชน์และการนำไปใช้งาน</h2>
+            <p class="intro-text">
+                โปรแกรมนี้สามารถนำไปประยุกต์ใช้งานได้ในหลายสถานที่ เช่น ทางแยก ถนนใหญ่ ทางด่วน ลานจอดรถ 
+                และพื้นที่สาธารณะต่างๆ เพื่อช่วยเพิ่มประสิทธิภาพในการจัดการจราจร ลดอุบัติเหตุ และเพิ่มความปลอดภัยให้กับผู้ใช้รถใช้ถนน
+            </p>
+            <p class="intro-text">
+                นอกจากนี้ ข้อมูลที่ได้จากระบบยังสามารถนำมาวิเคราะห์เป็นสถิติเพื่อการวางแผนพัฒนาโครงสร้างพื้นฐานด้านการขนส่ง 
+                การปรับปรุงระบบสัญญาณไฟจราจร และการกำหนดนโยบายด้านการจราจรที่เหมาะสมกับสถานการณ์จริง
+            </p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 ระบบนับและวิเคราะห์เหตุการณ์บนท้องถนน. สงวนลิขสิทธิ์.</p>
+            <p><small>พัฒนาด้วยเทคโนโลยีปัญญาประดิษฐ์เพื่อความปลอดภัยในการจราจร</small></p>
+        </div>
+    </footer>
+
+    <!-- Video Modal -->
+    <div class="modal fade" id="videoModal" tabindex="-1">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="videoTitle">ตัวอย่างการทำงาน</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-0">
+                    <div class="video-container">
+                        <video id="modalVideo" controls autoplay muted>
+                            <source src="" type="video/mp4">
+                            เบราว์เซอร์ของคุณไม่รองรับ HTML5 video
+                        </video>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Auto play preview videos on hover
+        document.querySelectorAll('.video-card').forEach(card => {
+            const video = card.querySelector('video');
+            
+            card.addEventListener('mouseenter', () => {
+                video.play();
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                video.pause();
+                video.currentTime = 0;
+            });
+        });
+
+        // Handle video modal
+        document.getElementById('videoModal').addEventListener('show.bs.modal', function (event) {
+            const button = event.relatedTarget;
+            const video = button.getAttribute('data-video');
+            const title = button.getAttribute('data-title');
+            
+            const titleElement = document.getElementById('videoTitle');
+            const modalVideo = this.querySelector('#modalVideo source');
+            const videoElement = this.querySelector('#modalVideo');
+            
+            titleElement.textContent = title || 'ตัวอย่างการทำงาน';
+            modalVideo.src = video;
+            videoElement.load();
+            
+            // Auto play when modal is fully shown
+            setTimeout(() => {
+                videoElement.play().catch(e => console.log('Auto-play prevented:', e));
+            }, 300);
+        });
+
+        // Stop video when modal is closed
+        document.getElementById('videoModal').addEventListener('hidden.bs.modal', function () {
+            const video = this.querySelector('#modalVideo');
+            video.pause();
+            video.currentTime = 0;
+        });
+
+        // Stop all preview videos when modal opens
+        document.getElementById('videoModal').addEventListener('show.bs.modal', function () {
+            document.querySelectorAll('.video-card video').forEach(video => {
+                video.pause();
+                video.currentTime = 0;
+            });
+        });
+    </script>
+</body>
+</html>
